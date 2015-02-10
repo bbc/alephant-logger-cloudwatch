@@ -30,7 +30,7 @@ require "alephant/logger/cloudwatch"
 
 cloudwatch_driver = Alephant::Logger::CloudWatch.new "my_namespace"
 
-logger = Alephant::Logger.create([cloudwatch_driver])
+logger = Alephant::Logger.setup cloudwatch_driver
 logger.metric(:name => "FooBar", :unit => "Count", :value => 1)
 ```
 
