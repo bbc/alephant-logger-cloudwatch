@@ -1,7 +1,8 @@
 # coding: utf-8
-lib = File.expand_path('../lib', __FILE__)
+
+lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'alephant/logger/cloudwatch/version'
+require "alephant/logger/cloudwatch/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "alephant-logger-cloudwatch"
@@ -23,4 +24,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec", "~> 3"
   spec.add_development_dependency "aws-sdk"
   spec.add_development_dependency "pry"
+  spec.add_development_dependency "rake-rspec"
+  spec.add_development_dependency "rspec-nc"
 end
