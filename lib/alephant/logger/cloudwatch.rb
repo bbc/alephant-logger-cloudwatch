@@ -12,7 +12,7 @@ module Alephant
         name, value, unit, dimensions = opts.values_at(
           :name, :value, :unit, :dimensions
         )
-        send(name, value, unit, dimensions)
+        send_metric(name, value, unit, dimensions)
       end
 
       private
@@ -28,7 +28,7 @@ module Alephant
         end
       end
 
-      def send(name, value, unit, dimensions)
+      def send_metric(name, value, unit, dimensions)
         Thread.new do
           cloudwatch.put_metric_data(
             :namespace   => namespace,
