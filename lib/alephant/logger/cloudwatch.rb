@@ -9,10 +9,7 @@ module Alephant
       end
 
       def metric(opts)
-        name, value, unit, dimensions = opts.values_at(
-          :name, :value, :unit, :dimensions
-        )
-        send_metric(name, value, unit, dimensions)
+        send_metric(*opts.values_at(:name, :value, :unit, :dimensions))
       end
 
       private
