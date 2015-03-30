@@ -28,7 +28,24 @@ $ gem install alephant-logger-cloudwatch
 require "alephant/logger"
 require "alephant/logger/cloudwatch"
 
-cloudwatch_driver = Alephant::Logger::CloudWatch.new "my_namespace"
+cloudwatch_driver = Alephant::Logger::CloudWatch.new(:namespace => "my_namespace")
+
+logger = Alephant::Logger.setup cloudwatch_driver
+logger.metric(:name => "FooBar", :unit => "Count", :value => 1)
+```
+
+You can also prefill in certain values:
+
+```ruby
+require "alephant/logger"
+require "alephant/logger/cloudwatch"
+
+cloudwatch_driver = Alephant::Logger::CloudWatch.new(
+  :namespace  => "my_namespace",
+  :unit       => "Count",
+  :value      => 1,
+  :dimensions => { :foo => "bar" }
+)
 
 logger = Alephant::Logger.setup cloudwatch_driver
 logger.metric(:name => "FooBar", :unit => "Count", :value => 1)
