@@ -3,11 +3,8 @@ require "aws-sdk"
 module Alephant
   module Logger
     class CloudWatch
-      def initialize(namespace, unit = "Count", value = 1, dimensions = {})
-        @namespace  = namespace
-        @unit       = unit
-        @value      = value
-        @dimensions = dimensions
+      def initialize(opts)
+        @opts = opts
         @cloudwatch = AWS::CloudWatch.new
       end
 
@@ -17,7 +14,7 @@ module Alephant
 
       private
 
-      attr_reader :cloudwatch, :namespace
+      attr_reader :cloudwatch
 
       def parse(dimensions)
         dimensions.map do |name, value|
@@ -31,12 +28,12 @@ module Alephant
       def send_metric(name, value, unit, dimensions)
         Thread.new do
           cloudwatch.put_metric_data(
-            :namespace   => namespace,
+            :namespace   => @opts[:namespace],
             :metric_data => [{
               :metric_name => name,
-              :value       => value || @value,
-              :unit        => unit || @unit || "None",
-              :dimensions  => parse(dimensions || @dimensions || {})
+              :value       => value || @opts[:value],
+              :unit        => unit || @opts[:unit] || "None",
+              :dimensions  => parse(dimensions || @opts[:dimensions] || {})
             }]
           )
         end

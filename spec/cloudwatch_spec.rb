@@ -1,7 +1,7 @@
 require "alephant/logger/cloudwatch"
 
 describe Alephant::Logger::CloudWatch do
-  subject { described_class.new("namespace") }
+  subject { described_class.new(:namespace => "namespace") }
 
   let(:namespace) { "namespace" }
 
