@@ -5,11 +5,9 @@ module Alephant
     class CloudWatch
       def initialize(opts)
         @cloudwatch = AWS::CloudWatch.new
-
-        preset_defaults = { :unit => "Count", :value => 1, :dimensions => {} }
-        preset_defaults.each do |key, value|
-          @defaults[key] = opts.fetch(key) { value }
-        end
+        @defaults = preset_defaults.reduce({}) do |acc, (key, value)|
+          acc.tap { |h| h[key] = opts.fetch(key, value) }
+        end.tap { |h| h[:namespace] = opts.fetch(:namespace) }
       end
 
       def metric(opts)
@@ -19,6 +17,10 @@ module Alephant
       private
 
       attr_reader :cloudwatch, :defaults
+
+      def preset_defaults
+        { :unit => "Count", :value => 1, :dimensions => {} }
+      end
 
       def parse(dimensions)
         dimensions.map do |name, value|
