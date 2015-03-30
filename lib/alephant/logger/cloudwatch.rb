@@ -4,7 +4,7 @@ module Alephant
   module Logger
     class CloudWatch
       def initialize(opts)
-        @opts = opts
+        @defaults   = opts
         @cloudwatch = AWS::CloudWatch.new
       end
 
@@ -14,7 +14,7 @@ module Alephant
 
       private
 
-      attr_reader :cloudwatch
+      attr_reader :cloudwatch, :defaults
 
       def parse(dimensions)
         dimensions.map do |name, value|
@@ -28,12 +28,12 @@ module Alephant
       def send_metric(name, value, unit, dimensions)
         Thread.new do
           cloudwatch.put_metric_data(
-            :namespace   => @opts[:namespace],
+            :namespace   => defaults[:namespace],
             :metric_data => [{
               :metric_name => name,
-              :value       => value || @opts[:value],
-              :unit        => unit || @opts[:unit] || "None",
-              :dimensions  => parse(dimensions || @opts[:dimensions] || {})
+              :value       => value || defaults[:value],
+              :unit        => unit || defaults[:unit] || "None",
+              :dimensions  => parse(dimensions || defaults[:dimensions] || {})
             }]
           )
         end
