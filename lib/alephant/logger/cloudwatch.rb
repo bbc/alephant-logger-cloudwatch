@@ -7,7 +7,7 @@ module Alephant
         @cloudwatch = AWS::CloudWatch.new
         @defaults = preset_defaults.reduce({}) do |acc, (key, value)|
           acc.tap { |h| h[key] = opts.fetch(key, value) }
-        end.tap { |h| h[:namespace] = opts.fetch(:namespace) }
+        end.merge :namespace => opts.fetch(:namespace)
       end
 
       def metric(opts)
