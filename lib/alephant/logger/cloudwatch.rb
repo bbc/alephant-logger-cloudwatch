@@ -4,8 +4,12 @@ module Alephant
   module Logger
     class CloudWatch
       def initialize(opts)
-        @defaults   = opts
         @cloudwatch = AWS::CloudWatch.new
+
+        preset_defaults = { :unit => "Count", :value => 1, :dimensions => {} }
+        preset_defaults.each do |key, value|
+          @defaults[key] = opts.fetch(key) { value }
+        end
       end
 
       def metric(opts)
@@ -32,8 +36,8 @@ module Alephant
             :metric_data => [{
               :metric_name => name,
               :value       => value || defaults[:value],
-              :unit        => unit || defaults[:unit] || "None",
-              :dimensions  => parse(dimensions || defaults[:dimensions] || {})
+              :unit        => unit || defaults[:unit],
+              :dimensions  => parse(dimensions || defaults[:dimensions])
             }]
           )
         end
