@@ -8,13 +8,14 @@ module Alephant
         @defaults   = process_defaults opts
       end
 
-      def metric(opts)
-        send_metric(*opts.values_at(:name, :value, :unit, :dimensions))
+      def metric(name, opts)
+        signature = [name] + opts.values_at(:value, :unit, :dimensions)
+        send_metric(*signature)
       end
 
       private
 
-      attr_reader :cloudwatch, :defaults
+      attr_reader :cloudwatch, :namespace, :defaults
 
       def process_defaults(opts)
         preset_defaults.reduce({}) do |acc, (key, value)|
@@ -38,7 +39,7 @@ module Alephant
       def send_metric(name, value, unit, dimensions)
         Thread.new do
           cloudwatch.put_metric_data(
-            :namespace   => defaults[:namespace],
+            :namespace   => namespace,
             :metric_data => [{
               :metric_name => name,
               :value       => value || defaults[:value],
