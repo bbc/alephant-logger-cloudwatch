@@ -3,12 +3,12 @@ require "alephant/logger/cloudwatch"
 describe Alephant::Logger::CloudWatch do
   subject { described_class.new(:namespace => "namespace") }
 
+  let(:name) { "a" }
   let(:namespace) { "namespace" }
 
   describe "#metric" do
     let(:opts) do
       {
-        :name       => "a",
         :value      => "b",
         :unit       => "c",
         :dimensions => {
@@ -39,7 +39,7 @@ describe Alephant::Logger::CloudWatch do
           :metric_data => [metric_data]
         )
 
-      subject.metric(opts).join
+      subject.metric(name, opts).join
     end
   end
 end
