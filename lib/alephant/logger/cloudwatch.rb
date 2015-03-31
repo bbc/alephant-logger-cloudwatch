@@ -39,7 +39,7 @@ module Alephant
       def send_metric(name, value, unit, dimensions)
         Thread.new do
           cloudwatch.put_metric_data(
-            :namespace   => namespace,
+            :namespace   => defaults[:namespace],
             :metric_data => [{
               :metric_name => name,
               :value       => value || defaults[:value],
