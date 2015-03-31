@@ -31,15 +31,16 @@ require "alephant/logger/cloudwatch"
 cloudwatch_driver = Alephant::Logger::CloudWatch.new(:namespace => "my_namespace")
 
 logger = Alephant::Logger.setup cloudwatch_driver
-logger.metric(:name => "FooBar", :unit => "Count", :value => 1)
+logger.metric("FooBar", :unit => "Count", :value => 1)
 ```
 
-You can also prefill in certain values:
+You can also prefill in default values when creating a new instance of the logger (and still override individual settings for each logger call):
 
 ```ruby
 require "alephant/logger"
 require "alephant/logger/cloudwatch"
 
+# Define defaults
 cloudwatch_driver = Alephant::Logger::CloudWatch.new(
   :namespace  => "my_namespace",
   :unit       => "Count",
@@ -48,7 +49,12 @@ cloudwatch_driver = Alephant::Logger::CloudWatch.new(
 )
 
 logger = Alephant::Logger.setup cloudwatch_driver
-logger.metric(:name => "FooBar", :unit => "Count", :value => 1)
+
+# Override specific settings for this logger call
+logger.metric("FooBar", :unit => "Percent", :value => 2)
+
+# Use predefined defaults
+logger.metric("BazQux")
 ```
 
 ## Contributing
