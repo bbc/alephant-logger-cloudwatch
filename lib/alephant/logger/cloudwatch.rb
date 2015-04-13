@@ -30,8 +30,8 @@ module Alephant
       def parse(dimensions)
         dimensions.map do |name, value|
           {
-            :name  => name,
-            :value => value
+            "name"  => name.to_s,
+            "value" => value
           }
         end
       end
