@@ -24,8 +24,8 @@ describe Alephant::Logger::CloudWatch do
         :unit        => "c",
         :dimensions  => [
           {
-            :name  => "dimension",
-            :value => "value"
+            "name"  => "dimension",
+            "value" => "value"
           }
         ]
       }
