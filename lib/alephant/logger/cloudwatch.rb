@@ -8,7 +8,7 @@ module Alephant
         @defaults   = process_defaults opts
       end
 
-      def metric(name, opts)
+      def metric(name, opts={})
         signature = [name] + opts.values_at(:value, :unit, :dimensions)
         send_metric(*signature)
       end
