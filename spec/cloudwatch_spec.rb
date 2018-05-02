@@ -32,7 +32,9 @@ describe Alephant::Logger::CloudWatch do
     end
 
     specify do
-      expect_any_instance_of(AWS::CloudWatch)
+      ENV['AWS_REGION'] = 'eu-west-1'
+
+      expect_any_instance_of(Aws::CloudWatch::Client)
         .to receive(:put_metric_data)
         .with(
           :namespace   => namespace,
