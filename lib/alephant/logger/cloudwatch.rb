@@ -1,10 +1,10 @@
-require "aws-sdk"
+require "aws-sdk-cloudwatch"
 
 module Alephant
   module Logger
     class CloudWatch
       def initialize(opts)
-        @cloudwatch = AWS::CloudWatch.new
+        @cloudwatch = Aws::CloudWatch::Client.new
         @defaults   = process_defaults opts
       end
 
